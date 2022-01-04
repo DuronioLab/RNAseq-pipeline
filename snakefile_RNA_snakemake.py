@@ -254,9 +254,9 @@ rule BamtoBigWig:
 		shell:
 				"""
 				module purge && module load {params.module}
-				bamCoverage -b {input.bam} -p {threads} --normalizeUsing RPGC --outFileFormat bigwig --binSize 10 -o {output.bigWig} --effectiveGenomeSize {params.genomeSize}
-				bamCoverage -b {input.bam} -p {threads} --normalizeUsing RPGC --outFileFormat bigwig --binSize 10 -o {output.bigWigRev} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand reverse
-				bamCoverage -b {input.bam} -p {threads} --normalizeUsing RPGC --outFileFormat bigwig --binSize 10 -o {output.bigWigFwd} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand forward
+				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWig} --effectiveGenomeSize {params.genomeSize}
+				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWigRev} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand reverse
+				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWigFwd} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand forward
 				"""
 
 ## --------------------------------------------------------------------------------------##
