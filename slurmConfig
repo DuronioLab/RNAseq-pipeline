@@ -1,0 +1,40 @@
+
+{
+	"__default__" : {
+		"account" : "jemcpher",
+		"time" : "8:00:00",
+		"threads" : "4",
+		"mem" : "16G"
+	},
+	"adapter_trim_reads" : {
+		"time" : "8:00:00",
+		"mem" : "16G"
+	},
+	"fastqc" : {
+		"time" : "8:00:00"
+	},
+	"fastqc_trimmed" : {
+		"time" : "8:00:00"
+	},
+	"multiQC" : {
+		"time" : "8:00:00"
+	},
+	"align_all_PairedEnd" : {
+		"time"	: "8:00:00",
+		"threads" : "20",
+		"mem" : "64G"
+	},
+	"IndexBam" : {
+		"mem" : "32G", 
+		"time" : "8:00:00" 
+	},
+	"BamtoBigWig" : {
+		"threads" : "8",
+		"mem" : "16G",
+		"time" : "8:00:00"
+	},
+	"featureCounts" : {
+		"mem" : "16G",
+		"time" : "8:00:00"
+	}
+}	
