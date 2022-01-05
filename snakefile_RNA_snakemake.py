@@ -244,9 +244,9 @@ rule BamtoBigWig:
                                 bam = 'Bam/{sample}_Aligned.sortedByCoord.out.bam',
                                 idx = 'Bam/{sample}_Aligned.sortedByCoord.out.bam.bai'
                 output:
-                                bigWig = 'BigWig/{sample}_bin_Aligned.sortedByCoord.bw',
-                                bigWigFwd = 'BigWig/{sample}_bin_Aligned_fwd.sortedByCoord.bw',
-                                bigWigRev = 'BigWig/{sample}_bin_Aligned_rev.sortedByCoord.bw'
+                                bigWig = 'BigWig/{sample}_Aligned.sortedByCoord.bw',
+                                bigWigFwd = 'BigWig/{sample}_Aligned_fwd.sortedByCoord.bw',
+                                bigWigRev = 'BigWig/{sample}_Aligned_rev.sortedByCoord.bw'
                 params:
                                 module = config['module']['deeptoolsVer'],
                                 genomeSize = config['general']['genomeSize'],
