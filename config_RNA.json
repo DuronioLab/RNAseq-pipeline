@@ -50,6 +50,6 @@
 		"annotation" : "/proj/mckaylab/genomeFiles/dm6/Annotation/Genes/genes.gtf",
 		"controlDNAPath" : "/proj/mckaylab/genomeFiles/dm6/ControlGenomicDNA/ControlGenomicDNA_trim_q5_dupsRemoved.bed",
 		"genomeSize" : "137547960",
-		"readLen" : "75"
+		"readLen" : "50"
 	}
 }
