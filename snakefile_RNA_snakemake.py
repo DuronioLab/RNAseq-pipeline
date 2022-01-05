@@ -97,7 +97,7 @@ rule STARindex:
        shell:
                """
                module purge && module load {params.module}
-               star --runThreadN 8 --runMode genomeGenerate --genomeSAindexNbases 12 --genomeDir Star_Index --genomeFastaFiles {input.genome} --sjdbGTFfile {input.gtf} --sjdbOverhang 74
+               star --runThreadN 8 --runMode genomeGenerate --genomeSAindexNbases 12 --genomeDir Star_Index --genomeFastaFiles {input.genome} --sjdbGTFfile {input.gtf} --sjdbOverhang 49
                """
 
 ## --------------------------------------------------------------------------------------##
