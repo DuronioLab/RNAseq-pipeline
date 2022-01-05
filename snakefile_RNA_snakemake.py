@@ -240,24 +240,25 @@ rule bamToBed:
 ## Convert BAM files to bigWig
         ## parameters will need to be changed based on using a stranded/reverse stranded RNA library prep kit
 rule BamtoBigWig:
-		input:
-				bam = 'Bam/{sample}_Aligned.sortedByCoord.out.bam',
-				idx = 'Bam/{sample}_Aligned.sortedByCoord.out.bam.bai'
-		output:
-				bigWig = 'BigWig/{sample}_Aligned.sortedByCoord.bw',
-				bigWigFwd = 'BigWig/{sample}_Aligned_fwd.sortedByCoord.bw',
-				bigWigRev = 'BigWig/{sample}_Aligned_rev.sortedByCoord.bw'
-		params:
-				module = config['module']['deeptoolsVer'],
-				genomeSize = config['general']['genomeSize'],
-		threads: 4
-		shell:
-				"""
-				module purge && module load {params.module}
-				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWig} --effectiveGenomeSize {params.genomeSize}
-				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWigRev} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand reverse
-				bamCoverage -split -i {input.bam} -p {threads}  --outFileFormat bigwig  -o {output.bigWigFwd} --effectiveGenomeSize {params.genomeSize} --filterRNAstrand forward
-				"""
+                input:
+                                bam = 'Bam/{sample}_Aligned.sortedByCoord.out.bam',
+                                idx = 'Bam/{sample}_Aligned.sortedByCoord.out.bam.bai'
+                output:
+                                bigWig = 'BigWig/{sample}_bin_Aligned.sortedByCoord.bw',
+                                bigWigFwd = 'BigWig/{sample}_bin_Aligned_fwd.sortedByCoord.bw',
+                                bigWigRev = 'BigWig/{sample}_bin_Aligned_rev.sortedByCoord.bw'
+                params:
+                                module = config['module']['deeptoolsVer'],
+                                genomeSize = config['general']['genomeSize'],
+                threads: 4
+                shell:
+                                """
+                                module purge && module load {params.module}
+                                bamCoverage -b {input.bam} -p {threads} --outFileFormat bigwig  -o {output.bigWig} --binSize 10
+                                bamCoverage -b {input.bam} -p {threads} --outFileFormat bigwig  -o {output.bigWigRev} --filterRNAstrand reverse --binSize 10
+                                bamCoverage -b {input.bam} -p {threads} --outFileFormat bigwig  -o {output.bigWigFwd} --filterRNAstrand forward --binSize 10
+                                """
+
 
 ## --------------------------------------------------------------------------------------##
 ## Read Counting
