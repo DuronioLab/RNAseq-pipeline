@@ -46,9 +46,9 @@
 		}
 	},
 	"general" : {
-		"chromSizePath" : "/proj/mckaylab/genomeFiles/dm6/dm6_chromSizes.txt",
-		"annotation" : "/proj/mckaylab/genomeFiles/dm6/Annotation/Genes/genes.gtf",
-		"controlDNAPath" : "/proj/mckaylab/genomeFiles/dm6/ControlGenomicDNA/ControlGenomicDNA_trim_q5_dupsRemoved.bed",
+		"chromSizePath" : "/proj/droniolb/genomeFiles/dm6/dm6_chromSizes.txt",
+		"annotation" : "/proj/droniolb/genomeFiles/dm6/Annotation/Genes/genes.gtf",
+		"controlDNAPath" : "/proj/droniolb/genomeFiles/dm6/ControlGenomicDNA/ControlGenomicDNA_trim_q5_dupsRemoved.bed",
 		"genomeSize" : "137547960",
 		"readLen" : "50"
 	}
