@@ -63,7 +63,7 @@ The rules found in the Snakefile for this pipeline are written generally in the 
 4. Alignment with STAR.
 5. Sort Bam file & convert to bed format with bedtools.
 6. Make coverage files (bigwig format).
-	- Generates RPGC-normalized files for combined, forward, and reverse strands.
+	- Generates files for combined, forward, and reverse strands. Used for visualization in IGV.
 7. Read summarization with featureCounts.
 	- Generates .txt file that can be used as input for DESeq2 analysis. 
 8. Quality control.
