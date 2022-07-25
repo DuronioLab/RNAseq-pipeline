@@ -1,5 +1,5 @@
 ## Pipeline made by JEANNE-MARIE MCPHERSON.
-## Edited January 2022.
+## Edited July 2022 by Markus Nevil
 
 import pandas as pd
 import os
@@ -54,7 +54,8 @@ rule all:
 		expand('BigWig/{sample}_Aligned_fwd.sortedByCoord.bw', sample = sampleList),
 		expand('BigWig/{sample}_Aligned_rev.sortedByCoord.bw', sample = sampleList),
 		expand('featureCounts/counts_Aligned.txt'),
-		expand('Star_Index/genomeParameters.txt')
+		expand('Star_Index/genomeParameters.txt'),
+		expand('RNA_shinyapp.tar.gz')
 
 rule moveFiles:
 	input:
@@ -129,7 +130,7 @@ rule adapter_trim_reads:
 ## Fastqc, original reads
 rule fastqc:
 	input: 
-		fastq = expand('Fastq/{sample}_R{Num}.fastq.gz', sample = sampleList, Num = ['1', '2'])
+		fastq = 'Fastq/{sample}_R{Num}.fastq.gz', sample = sampleList, Num = ['1', '2']
 	output:
 		'Fastqc/{sample}_R{Num}_fastqc.html'
 	params:
@@ -143,7 +144,7 @@ rule fastqc:
 ## Fastqc, trimmed reads
 rule fastqc_trimmed:
 	input: 
-		fastq = expand('Fastq/{sample}_R{Num}_trim.fastq.gz', sample = sampleList, Num = ['1', '2'])
+		fastq = 'Fastq/{sample}_R{Num}_trim.fastq.gz', sample = sampleList, Num = ['1', '2']
 	output:
 		'Fastqc_trimmed/{sample}_R{Num}_trim_fastqc.html'
 	params:
@@ -278,6 +279,50 @@ rule featureCounts:
 		module purge && module load {params.module}
 		featureCounts -p -a {params.annotation} -o {output} -T 4 -t exon -g gene_id {input}
 		"""
+## ------------------------------------------------------------------------------------ ##
+## Clone and arrange data for the R shinyapp
+## ------------------------------------------------------------------------------------ ##
+rule shiny:
+	input:
+		expand('Bam/{sample}_Aligned.sortedByCoord.out.bam', sample = sampleList)
+	output:
+		'RNA_shinyapp.tar.gz'
+	threads: 4
+	shell:
+		"""
+		git clone https://github.com/DuronioLab/RNA_shinyapp.git
+
+		mkdir RNA_shinyapp/input_data
+		mkdir RNA_shinyapp/output_data
+		
+		printf "sample\trep\tbaseName\tbam\n" > ./RNA_shinyapp/input_data/sampleSheet.tsv
+
+		fileList=($(ls ./Bam/*_Aligned.sortedByCoord.out.bam))
+		for file in ${fileList[@]}
+			do
+			tmp=${file##*/}
+			basename=${tmp%%_Aligned*}
+			rep=${basename##*_rep}
+			sample=${basename%%_rep*}
+
+			cp ./Bam/${tmp} ./RNA_shinyapp/input_data/${basename}_sorted.bam
+			cp ./Bam/${tmp}.bai ./RNA_shinyapp/input_data/${basename}_sorted.bai
+
+			printf "${sample}\trep${rep}\t${basename}\tBam/${basename}_sorted.bam\n" >> ./RNA_shinyapp/input_data/sampleSheet.tsv
+			
+			done
+
+		cp ./featureCounts/counts_Aligned.txt ./RNA_shinyapp/input_data/featureCounts.txt
+		
+		cp /proj/droniolb/genomeFiles/dm6/dmel-all-r6.20.ucsc.gtf ./RNA_shinyapp/input_data/dmel-all-r6.20.ucsc.gtf
+		cp /proj/droniolb/genomeFiles/dm6/fb_synonym_fb_2021_03.tsv ./RNA_shinyapp/input_data/fb_synonym_fb_2021_03.tsv
+
+		tar -zcvf RNA_shinyapp.tar.gz RNA_shinyapp
+
+		"""
+
+
+
 
 ## ------------------------------------------------------------------------------------ ##
 ## Success and failure messages
