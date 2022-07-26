@@ -4,7 +4,7 @@ Author: Jeanne-Marie McPherson
 # Quick Start:
 ## Paired-end RNA-seq
 ### Clone pipeline (Current stable version)
-git clone https://github.com/mckaylabunc/RNAseq-pipeline.git 
+git clone https://github.com/DuronioLab/RNAseq-pipeline.git 
 
 Make sure all necessary files are present: 
 
