@@ -130,7 +130,7 @@ rule adapter_trim_reads:
 ## Fastqc, original reads
 rule fastqc:
 	input: 
-		fastq = 'Fastq/{sample}_R{Num}.fastq.gz', sample = sampleList, Num = ['1', '2']
+		fastq = 'Fastq/{sample}_R{Num}.fastq.gz'
 	output:
 		'Fastqc/{sample}_R{Num}_fastqc.html'
 	params:
@@ -138,13 +138,13 @@ rule fastqc:
 	shell:
 		"""
 		module purge && module load {params.module}
-		fastqc -o ./Fastqc/ -f fastq {input.fastq} 
+		fastqc -o ./Fastqc/ -f fastq {input.fastq}
 		"""
 
 ## Fastqc, trimmed reads
 rule fastqc_trimmed:
 	input: 
-		fastq = 'Fastq/{sample}_R{Num}_trim.fastq.gz', sample = sampleList, Num = ['1', '2']
+		fastq = 'Fastq/{sample}_R{Num}_trim.fastq.gz'
 	output:
 		'Fastqc_trimmed/{sample}_R{Num}_trim_fastqc.html'
 	params:
@@ -152,7 +152,7 @@ rule fastqc_trimmed:
 	shell:
 		"""
 		module purge && module load {params.module}
-		fastqc -o ./Fastqc_trimmed/ -f fastq {input.fastq} 
+		fastqc -o ./Fastqc_trimmed/ -f fastq {input.fastq}
 		"""
 ## Multiqc
 rule multiQC:
