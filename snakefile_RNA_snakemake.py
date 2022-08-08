@@ -20,6 +20,7 @@ configfile: 'config_RNA.json'
 sampleDF = pd.read_csv(config['sampleSheetPath'], comment = '#')
 
 def getsampleReplicates(wildcards):
+
 	readNumRegex = '_R{}'.format(wildcards.Num)
 
 	sampleFilter = sampleDF [ sampleDF.sampleName == wildcards.sample ]
@@ -31,6 +32,7 @@ def getsampleReplicates(wildcards):
 	return(fastqList)
 
 sampleList =  set(sampleDF.sampleName)
+
 
 ## --------------------------------------------------------------------------------------##
 ## Snakemake rules
@@ -69,6 +71,7 @@ rule moveFiles:
 		do
 			cp ${{inputList[$i]}} Fastq/
 		done
+		
 		"""
 
 rule combinesampleReps:
@@ -80,6 +83,8 @@ rule combinesampleReps:
 		"""
 		cat {input} > {output}
 		"""
+
+
 
 ## --------------------------------------------------------------------------------------##
 ## Build STAR Index
@@ -284,7 +289,7 @@ rule featureCounts:
 ## ------------------------------------------------------------------------------------ ##
 rule shiny:
 	input:
-		expand('Bam/{sample}_Aligned.sortedByCoord.out.bam', sample = sampleList)
+		'featureCounts/counts_Aligned.txt'
 	output:
 		'RNA_shinyapp.tar.gz'
 	threads: 4
